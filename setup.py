@@ -11,8 +11,8 @@ def main():
           author='ArrayStream',
           author_email='team@arraystream.com',
           url='https://github.com/arraystream/simpleplotly',
-          description="simpleplotly makes generating charts with plotly easy",
-          long_description=__doc__,
+          description='An easy to use plotly wrapper for python / jupyter notebooks',
+          long_description='simpleplotly makes generating charts with plotly easy',
           classifiers=[
               'Development Status :: 4 - Beta',
               'Programming Language :: Python :: 3',
