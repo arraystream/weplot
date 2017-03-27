@@ -5,6 +5,9 @@
 
 ArrayStream (Yu Zheng, Ran Fan, Yongxin Yang)
 
+### Installation
+```pip install simpleplotly```
+
 ### Documentation
 
 Please see our blog post on: [http://www.arraystream.com/blog/simpleplotly](http://www.arraystream.com/blog/simpleplotly)
