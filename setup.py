@@ -8,7 +8,7 @@ exec(open('simpleplotly/version.py').read())
 def main():
     setup(name='simpleplotly',
           version=__version__,
-          author='ArrayStream',
+          author='ArrayStream (Yu Zheng, Ran Fan, Yongxin Yang)',
           author_email='team@arraystream.com',
           url='https://github.com/arraystream/simpleplotly',
           description='An easy to use plotly wrapper for python / jupyter notebooks',

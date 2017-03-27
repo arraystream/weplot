@@ -14,9 +14,7 @@ class FigureHolder(object):
 
     def plot(self, mode='offline'):
         if mode == 'offline':
-            import plotly
             import plotly.offline as py
-            plotly.offline.init_notebook_mode()
             py.iplot(self.figure)
         else:
             raise ValueError('Not supported yet, please check later!')
