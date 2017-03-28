@@ -10,7 +10,7 @@ ArrayStream (Yu Zheng, Ran Fan, Yongxin Yang)
 
 ### Documentation
 
-Please see our blog post on: [http://www.arraystream.com/blog/simpleplotly](http://www.arraystream.com/blog/simpleplotly)
+Please see our blog post on: [http://www.arraystream.com/blog/simpleplotly.html](http://www.arraystream.com/blog/simpleplotly.html)
 
 ### Contributing
 
