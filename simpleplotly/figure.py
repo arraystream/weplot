@@ -19,7 +19,7 @@ class FigureHolder(object):
             plotly.offline.init_notebook_mode()
             py.iplot(self.figure)
         else:
-            raise ValueError('Not supported yet, please check later!')
+            raise ValueError('online not supported yet, please check later!')
 
     def update_layout(self, **kwargs):
         self.figure.layout.update(**kwargs)
