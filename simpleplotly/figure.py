@@ -6,7 +6,7 @@ from plotly import tools
 from .layout import ElementBuilder
 from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
-
+import itertools
 
 class FigureHolder(object):
     def __init__(self, figure):
@@ -17,7 +17,7 @@ class FigureHolder(object):
             import plotly.offline as py
             py.iplot(self.figure)
         else:
-            raise ValueError('Not supported yet, please check later!')
+            raise ValueError('online not supported yet, please check later!')
 
     def update_layout(self, **kwargs):
         self.figure.layout.update(**kwargs)
@@ -80,5 +80,14 @@ class FigureBuilder(object):
         holder.update_layout(**self.layout)
         return holder
 
-    def subplot(self, print_grid=True, **kwargs):
+    def subplot(self, row=None, col=None, print_grid=True, **kwargs):
+        if col is not None and row is not None:
+            self.specs=[]
+            self.canvas = PlotCanvas()
+            for row,col in itertools.product(range(1,row+1),range(1,col+1)):
+                spec = self._validated_spec(row, col, row_span=1, col_span=1)
+                if spec is not None:
+                    self.canvas.occupy_area(spec)
+                self.specs.append(spec)
         self.build_subplot(print_grid=print_grid, **kwargs).plot()
+            
