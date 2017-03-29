@@ -8,6 +8,7 @@ from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
 import itertools
 
+
 class FigureHolder(object):
     def __init__(self, figure):
         self.figure = figure
@@ -21,6 +22,11 @@ class FigureHolder(object):
 
     def update_layout(self, **kwargs):
         self.figure.layout.update(**kwargs)
+        return self
+
+    def drop_key_layout(self, key):
+        if key in self.figure.layout:
+            del self.figure.layout[key]
         return self
 
 
@@ -78,16 +84,16 @@ class FigureBuilder(object):
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
         holder.update_layout(**self.layout)
+        holder.drop_key_layout('xaxis').drop_key_layout('yaxis')
         return holder
 
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):
         if col is not None and row is not None:
-            self.specs=[]
+            self.specs = []
             self.canvas = PlotCanvas()
-            for row,col in itertools.product(range(1,row+1),range(1,col+1)):
+            for row, col in itertools.product(range(1, row + 1), range(1, col + 1)):
                 spec = self._validated_spec(row, col, row_span=1, col_span=1)
                 if spec is not None:
                     self.canvas.occupy_area(spec)
                 self.specs.append(spec)
         self.build_subplot(print_grid=print_grid, **kwargs).plot()
-            
