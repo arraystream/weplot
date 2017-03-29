@@ -4,6 +4,13 @@ from .figure import (
     FigureBuilder,
     FigureHolder,
 )
+from .layout import (
+    Annotation,
+    Shape,
+    XAxis,
+    YAxis,
+    ZAxis,
+)
 from .plot import (
     Scatter,
     Line,
@@ -15,10 +22,4 @@ from .plot import (
     Line3D,
     Surface,
 )
-from .layout import (
-    Annotation,
-    Shape,
-    XAxis,
-    YAxis,
-    ZAxis,
-)
+from .version import __version__
