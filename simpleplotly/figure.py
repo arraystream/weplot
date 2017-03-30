@@ -37,6 +37,19 @@ class FigureBuilder(object):
         self.layout = {}
         self.canvas = PlotCanvas()
 
+    def __add__(self,fig_builder,default_layout='blank'):
+        new_fig_builder = FigureBuilder()
+        new_fig_builder.builders.extend(self.builders)
+        new_fig_builder.builders.extend(fig_builder.builders)
+        if default_layout=='left':
+            new_fig_builder.layout=self.layout
+        elif default_layout=='right':
+            new_fig_builder.layout=fig_builder.layout
+        else:
+            new_fig_builder.layout={}
+        return new_fig_builder
+
+
     def add(self, builder, row=None, col=None, row_span=1, col_span=1):
         if isinstance(builder, AtomBuilder):
             self.builders.append(builder)
