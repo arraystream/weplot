@@ -38,6 +38,7 @@ class FigureBuilder(object):
         self.canvas = PlotCanvas()
 
     def __add__(self,fig_builder,default_layout='blank'):
+        # new builder
         new_fig_builder = FigureBuilder()
         new_fig_builder.builders.extend(self.builders)
         new_fig_builder.builders.extend(fig_builder.builders)
