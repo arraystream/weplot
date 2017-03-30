@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import sys
+
 from setuptools import setup, find_packages
 
 exec(open('simpleplotly/version.py').read())
+
+
+def check_python_version():
+    if sys.version_info[:2] < (3, 4):
+        print('Python 3.4 or newer is required. Python version detected: {}'.format(sys.version_info))
+        sys.exit(-1)
 
 
 def main():
@@ -28,4 +36,5 @@ def main():
 
 
 if __name__ == '__main__':
+    check_python_version()
     main()
