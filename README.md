@@ -1,5 +1,8 @@
-## simpleplotly
-##### An easy to use plotly wrapper for python / jupyter notebooks
+## SimplePlotly
+
+[![PyPI Version](https://img.shields.io/pypi/v/simpleplotly.svg)](https://pypi.python.org/pypi/simpleplotly) [![Build Status](https://travis-ci.org/arraystream/simpleplotly.svg?branch=master)](https://travis-ci.org/arraystream/simpleplotly)
+
+SimplePlotly is an easy to use plotly wrapper for python / jupyter notebooks
 
 ### Authors
 
