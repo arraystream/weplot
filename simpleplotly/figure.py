@@ -2,7 +2,7 @@
 
 import plotly.graph_objs as go
 from plotly import tools
-
+import copy
 from .layout import ElementBuilder
 from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
@@ -94,7 +94,7 @@ class FigureBuilder(object):
 
         for idx, builder in enumerate(self.builders):
             spec = self.specs[idx]
-            fig.append_trace(builder.data, spec.r, spec.c)
+            fig.append_trace(copy.deepcopy(builder.data), spec.r, spec.c)
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
         holder.update_layout(**self.layout)
@@ -103,11 +103,13 @@ class FigureBuilder(object):
 
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):
         if col is not None and row is not None:
-            self.specs = []
-            self.canvas = PlotCanvas()
+            new_builder = FigureBuilder()
+            new_builder.builders = self.builders
+            new_builder.layout = copy.deepcopy(self.layout)
             for row, col in itertools.product(range(1, row + 1), range(1, col + 1)):
                 spec = self._validated_spec(row, col, row_span=1, col_span=1)
-                if spec is not None:
-                    self.canvas.occupy_area(spec)
-                self.specs.append(spec)
-        self.build_subplot(print_grid=print_grid, **kwargs).plot()
+                new_builder.canvas.occupy_area(self._validated_spec(row, col, row_span=1, col_span=1))
+                new_builder.specs.append(spec)
+            new_builder.build_subplot(print_grid=print_grid, **kwargs).plot()
+        else:
+            self.build_subplot(print_grid=print_grid, **kwargs).plot()
