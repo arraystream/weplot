@@ -10,6 +10,7 @@ from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
 
 
+
 class FigureHolder(object):
     def __init__(self, figure):
         self.figure = figure
@@ -25,6 +26,11 @@ class FigureHolder(object):
         self.figure.layout.update(**kwargs)
         return self
 
+    def drop_key_layout(self, key):
+        if key in self.figure.layout:
+            del self.figure.layout[key]
+        return self
+
 
 class FigureBuilder(object):
     def __init__(self, *builders):
@@ -32,6 +38,20 @@ class FigureBuilder(object):
         self.specs = [None for _ in range(len(builders))]
         self.layout = {}
         self.canvas = PlotCanvas()
+
+    def __add__(self,fig_builder,default_layout='blank'):
+        # new builder
+        new_fig_builder = FigureBuilder()
+        new_fig_builder.builders.extend(self.builders)
+        new_fig_builder.builders.extend(fig_builder.builders)
+        if default_layout=='left':
+            new_fig_builder.layout=self.layout
+        elif default_layout=='right':
+            new_fig_builder.layout=fig_builder.layout
+        else:
+            new_fig_builder.layout={}
+        return new_fig_builder
+
 
     def add(self, builder, row=None, col=None, row_span=1, col_span=1):
         if isinstance(builder, AtomBuilder):
@@ -80,6 +100,7 @@ class FigureBuilder(object):
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
         holder.update_layout(**self.layout)
+        holder.drop_key_layout('xaxis').drop_key_layout('yaxis')
         return holder
 
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):
