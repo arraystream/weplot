@@ -31,7 +31,7 @@ class LayoutBuildersTest(unittest.TestCase):
         self.check_axis(sp.ZAxis, 'zaxis')
 
     def check_axis(self, axis_builder_func, axis_name):
-        expected = {'autorange': True, 'showgrid': True, 'showline': False, 'title': 'test axis', 'zeroline': True}
+        expected = {'autorange': True, 'showgrid': True, 'showline': False, 'title': 'test axis'}
         shape_builder = axis_builder_func('test axis')
         shape_builder(self.test_layout)
         self.assertDictEqual(self.test_layout[axis_name], expected)
