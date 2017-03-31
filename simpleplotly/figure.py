@@ -3,6 +3,7 @@
 import copy
 import itertools
 
+import plotly
 import plotly.graph_objs as go
 from plotly import tools
 
@@ -30,6 +31,10 @@ class FigureHolder(object):
         if key in self.figure.layout:
             del self.figure.layout[key]
         return self
+
+    def to_json(self):
+        import json
+        return json.dumps(self.figure, cls=plotly.utils.PlotlyJSONEncoder)
 
 
 def validated_spec(row, col, row_span, col_span):
