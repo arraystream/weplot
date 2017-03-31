@@ -102,28 +102,32 @@ class FigureBuilder(object):
         holder.update_layout(**self.layout)
         holder.drop_layout_key('xaxis').drop_layout_key('yaxis')
         return holder
-    
-    def customize_spec(self, spec_list):
-        specs=[]
-        canvas=PlotCanvas()
+
+    def customize_spec(self, spec_list, is_replace=False):
+        specs = []
+        canvas = PlotCanvas()
         for one_spec in spec_list:
-            if len(one_spec)==2:
-                spec = self._validated_spec(one_spec[0],one_spec[1],1,1)
-            elif len(one_spec)==4:
-                spec = self._validated_spec(one_spec[0],one_spec[1],one_spec[2],one_spec[3])
+            if len(one_spec) == 2:
+                spec = self._validated_spec(one_spec[0], one_spec[1], 1, 1)
+            elif len(one_spec) == 4:
+                spec = self._validated_spec(one_spec[0], one_spec[1], one_spec[2], one_spec[3])
             else:
                 raise ValueError('spec in spec_list should be a list of len 2 or 4')
             canvas.occupy_area(spec)
             specs.append(spec)
-        return specs,canvas
+        if is_replace:
+            self.specs, self.canvas = specs, canvas
+            return self
+        else:
+            return specs, canvas
 
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):
         if col is not None and row is not None:
             new_builder = FigureBuilder()
             new_builder.builders = self.builders
             new_builder.layout = copy.deepcopy(self.layout)
-            new_builder.specs,new_builder.canvas=self.customize_spec(list(itertools.product(range(1, row + 1), 
-                                                                                            range(1, col + 1))))
+            new_builder.specs, new_builder.canvas = self.customize_spec(list(itertools.product(range(1, row + 1),
+                                                                                               range(1, col + 1))))
             new_builder.build_subplot(print_grid=print_grid, **kwargs).plot()
         else:
             self.build_subplot(print_grid=print_grid, **kwargs).plot()
