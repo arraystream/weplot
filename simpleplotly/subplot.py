@@ -44,11 +44,6 @@ class PlotCanvas(object):
         self.max_rows = 1
         self.max_cols = 1
 
-    def _mark_area(self, area):
-        if set(self.canvas.keys()).intersection(set(area.keys())):
-            raise RuntimeError('subplot overlap detected')
-        self.canvas.update(area)
-
     def _expand(self, r_max, c_max):
         if r_max > self.max_rows:
             self.max_rows = r_max
@@ -56,7 +51,7 @@ class PlotCanvas(object):
             self.max_cols = c_max
 
     def occupy_area(self, spec):
-        self._mark_area(spec.area_spec())
+        self.canvas.update(spec.area_spec())
         self._expand(spec.r_max, spec.c_max)
 
     def make_plotly_spec(self):
