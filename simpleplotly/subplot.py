@@ -41,6 +41,7 @@ class SubPlotSpec(namedtuple('SubPlotSpec', ['r', 'c', 'rs', 'cs'])):
 class PlotCanvas(object):
     def __init__(self):
         self.canvas = {}
+        self.specs = []
         self.max_rows = 1
         self.max_cols = 1
 
@@ -51,8 +52,10 @@ class PlotCanvas(object):
             self.max_cols = c_max
 
     def occupy_area(self, spec):
-        self.canvas.update(spec.area_spec())
-        self._expand(spec.r_max, spec.c_max)
+        if spec is not None:
+            self.canvas.update(spec.area_spec())
+            self._expand(spec.r_max, spec.c_max)
+        self.specs.append(spec)
 
     def make_plotly_spec(self):
         plotly_specs = []
