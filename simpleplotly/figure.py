@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import itertools
+
 import plotly.graph_objs as go
 from plotly import tools
 import copy
 from .layout import ElementBuilder
 from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
-import itertools
 
 
 class FigureHolder(object):
@@ -24,32 +25,33 @@ class FigureHolder(object):
         self.figure.layout.update(**kwargs)
         return self
 
-    def drop_key_layout(self, key):
+    def drop_layout_key(self, key):
         if key in self.figure.layout:
             del self.figure.layout[key]
         return self
 
 
 class FigureBuilder(object):
-    def __init__(self, *builders):
-        self.builders = list(builders)
-        self.specs = [None for _ in range(len(builders))]
+    def __init__(self):
+        self.builders = []
+        self.specs = []
         self.layout = {}
         self.canvas = PlotCanvas()
 
-    def __add__(self,fig_builder,default_layout='blank'):
-        # new builder
+    def __add__(self, other_builder):
+        return self.combine(other_builder)
+
+    def combine(self, other_builder, layout=None):
         new_fig_builder = FigureBuilder()
         new_fig_builder.builders.extend(self.builders)
-        new_fig_builder.builders.extend(fig_builder.builders)
-        if default_layout=='left':
-            new_fig_builder.layout=self.layout
-        elif default_layout=='right':
-            new_fig_builder.layout=fig_builder.layout
-        else:
-            new_fig_builder.layout={}
+        new_fig_builder.builders.extend(other_builder.builders)
+        if layout == 'left':
+            new_fig_builder.layout = self.layout
+        elif layout == 'right':
+            new_fig_builder.layout = other_builder.layout
+        elif layout is not None:
+            raise ValueError('layout can only be left, right or None')
         return new_fig_builder
-
 
     def add(self, builder, row=None, col=None, row_span=1, col_span=1):
         if isinstance(builder, AtomBuilder):
@@ -98,7 +100,7 @@ class FigureBuilder(object):
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
         holder.update_layout(**self.layout)
-        holder.drop_key_layout('xaxis').drop_key_layout('yaxis')
+        holder.drop_layout_key('xaxis').drop_layout_key('yaxis')
         return holder
 
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):

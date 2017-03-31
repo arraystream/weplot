@@ -54,15 +54,15 @@ class AxisBuilder(ElementBuilder):
 
 
 class XAxis(AxisBuilder):
-    def __init__(self, title, name='xaxis', autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
-        super().__init__(go.XAxis, name=name, title=title, autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
+    def __init__(self, title, autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
+        super().__init__(go.XAxis, name='xaxis', title=title, autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
 
 
 class YAxis(AxisBuilder):
-    def __init__(self, title, name='yaxis', autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
-        super().__init__(go.YAxis, title=title, name=name, autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
+    def __init__(self, title, autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
+        super().__init__(go.YAxis, title=title, name='yaxis', autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
 
 
 class ZAxis(AxisBuilder):
-    def __init__(self, title, name='zaxis', autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
-        super().__init__(go.ZAxis, title=title, name=name, autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
+    def __init__(self, title, autorange=True, showgrid=True, zeroline=True, showline=False, **kwargs):
+        super().__init__(go.ZAxis, title=title, name='zaxis', autorange=autorange, showgrid=showgrid, zeroline=zeroline, showline=showline, **kwargs)
