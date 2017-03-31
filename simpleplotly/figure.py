@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import copy
 import itertools
 
+import plotly
 import plotly.graph_objs as go
 from plotly import tools
-import copy
+
 from .layout import ElementBuilder
 from .plot import AtomBuilder
 from .subplot import SubPlotSpec, PlotCanvas
@@ -31,15 +33,38 @@ class FigureHolder(object):
             del self.figure.layout[key]
         return self
 
-    def save_image(self, filename, **kwargs):
+    def to_image(self, filename, **kwargs):
         import plotly.plotly as py
         py.image.save_as(self.figure, filename=filename, **kwargs)
+
+    def to_json(self):
+        import json
+        return json.dumps(self.figure, cls=plotly.utils.PlotlyJSONEncoder)
+
+
+def validated_spec(row, col, row_span, col_span):
+    if row is None or col is None:
+        return None
+    else:
+        return SubPlotSpec(row, col, row_span, col_span)
+
+
+def canvas_from_specs(specs):
+    canvas = PlotCanvas()
+    for one_spec in specs:
+        if len(one_spec) == 2:
+            spec = validated_spec(one_spec[0], one_spec[1], 1, 1)
+        elif len(one_spec) == 4:
+            spec = validated_spec(one_spec[0], one_spec[1], one_spec[2], one_spec[3])
+        else:
+            raise ValueError('spec in specs should be of len 2 or 4')
+        canvas.occupy_area(spec)
+    return canvas
 
 
 class FigureBuilder(object):
     def __init__(self):
         self.builders = []
-        self.specs = []
         self.layout = {}
         self.canvas = PlotCanvas()
 
@@ -61,22 +86,13 @@ class FigureBuilder(object):
     def add(self, builder, row=None, col=None, row_span=1, col_span=1):
         if isinstance(builder, AtomBuilder):
             self.builders.append(builder)
-            spec = self._validated_spec(row, col, row_span, col_span)
-            if spec is not None:
-                self.canvas.occupy_area(spec)
-            self.specs.append(spec)
+            spec = validated_spec(row, col, row_span, col_span)
+            self.canvas.occupy_area(spec)
         elif isinstance(builder, ElementBuilder):
             builder(self.layout)
         else:
             raise ValueError('The type of builder is {} which is not known'.format(type(builder)))
         return self
-
-    @staticmethod
-    def _validated_spec(row, col, row_span, col_span):
-        if row is None or col is None:
-            return None
-        else:
-            return SubPlotSpec(row, col, row_span, col_span)
 
     def update_layout(self, **kwargs):
         self.layout.update(kwargs)
@@ -100,7 +116,7 @@ class FigureBuilder(object):
             print_grid=print_grid, **kwargs)
 
         for idx, builder in enumerate(self.builders):
-            spec = self.specs[idx]
+            spec = self.canvas.specs[idx]
             fig.append_trace(copy.deepcopy(builder.data), spec.r, spec.c)
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
@@ -108,31 +124,12 @@ class FigureBuilder(object):
         holder.drop_layout_key('xaxis').drop_layout_key('yaxis')
         return holder
 
-    def customize_spec(self, spec_list, is_replace=False):
-        specs = []
-        canvas = PlotCanvas()
-        for one_spec in spec_list:
-            if len(one_spec) == 2:
-                spec = self._validated_spec(one_spec[0], one_spec[1], 1, 1)
-            elif len(one_spec) == 4:
-                spec = self._validated_spec(one_spec[0], one_spec[1], one_spec[2], one_spec[3])
-            else:
-                raise ValueError('spec in spec_list should be a list of len 2 or 4')
-            canvas.occupy_area(spec)
-            specs.append(spec)
-        if is_replace:
-            self.specs, self.canvas = specs, canvas
-            return self
-        else:
-            return specs, canvas
-
     def subplot(self, row=None, col=None, print_grid=True, **kwargs):
         if col is not None and row is not None:
             new_builder = FigureBuilder()
             new_builder.builders = self.builders
             new_builder.layout = copy.deepcopy(self.layout)
-            new_builder.specs, new_builder.canvas = self.customize_spec(list(itertools.product(range(1, row + 1),
-                                                                                               range(1, col + 1))))
+            new_builder.canvas = canvas_from_specs(itertools.product(range(1, row + 1), range(1, col + 1)))
             new_builder.build_subplot(print_grid=print_grid, **kwargs).plot()
         else:
             self.build_subplot(print_grid=print_grid, **kwargs).plot()
