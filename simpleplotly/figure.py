@@ -16,13 +16,18 @@ class FigureHolder(object):
     def __init__(self, figure):
         self.figure = figure
 
-    def plot(self, filename=None):
-        if filename is None:
-            import plotly.offline as py
-            py.iplot(self.figure)
+    def plot(self, mode='offline', **plot_options):
+        if mode == 'online':
+            py = plotly.plotly
+        elif mode == 'offline':
+            py = plotly.offline
         else:
-            import plotly.plotly as py
-            py.iplot(self.figure, filename=filename)
+            raise ValueError('mode must be one of (online, offline)')
+
+        return py.iplot(self.figure, **plot_options)
+
+    def plot_online(self, **plot_options):
+        return self.plot(mode='offline', **plot_options)
 
     def update_layout(self, **kwargs):
         self.figure.layout.update(**kwargs)
@@ -33,9 +38,8 @@ class FigureHolder(object):
             del self.figure.layout[key]
         return self
 
-    def to_image(self, filename, **kwargs):
-        import plotly.plotly as py
-        py.image.save_as(self.figure, filename=filename, **kwargs)
+    def to_image(self, filename, format=None, width=None, height=None, scale=None):
+        plotly.plotly.image.save_as(self.figure, filename=filename, format=format, width=width, height=height, scale=scale)
 
     def to_json(self):
         import json
