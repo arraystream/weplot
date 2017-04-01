@@ -16,12 +16,13 @@ class FigureHolder(object):
     def __init__(self, figure):
         self.figure = figure
 
-    def plot(self, mode='offline'):
-        if mode == 'offline':
+    def plot(self, filename=None):
+        if filename is None:
             import plotly.offline as py
             py.iplot(self.figure)
         else:
-            raise ValueError('online not supported yet, please check later!')
+            import plotly.plotly as py
+            py.iplot(self.figure, filename=filename)
 
     def update_layout(self, **kwargs):
         self.figure.layout.update(**kwargs)
@@ -31,6 +32,10 @@ class FigureHolder(object):
         if key in self.figure.layout:
             del self.figure.layout[key]
         return self
+
+    def to_image(self, filename, **kwargs):
+        import plotly.plotly as py
+        py.image.save_as(self.figure, filename=filename, **kwargs)
 
     def to_json(self):
         import json
