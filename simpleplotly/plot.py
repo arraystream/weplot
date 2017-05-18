@@ -15,6 +15,11 @@ class AtomBuilder(ABC):
         self.layout = layout
 
 
+class Pie(AtomBuilder):
+    def __init__(self, labels, values, **kwargs):
+        super().__init__(data=go.Pie(labels=labels, values=values, **kwargs))
+
+
 class Scatter(AtomBuilder):
     def __init__(self, x, y, mode='markers', **kwargs):
         super().__init__(data=go.Scatter(x=x, y=y, mode=mode, **kwargs))
