@@ -21,5 +21,6 @@ from .plot import (
     Scatter3D,
     Line3D,
     Surface,
+    Pie,
 )
 from .version import __version__

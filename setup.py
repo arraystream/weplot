@@ -16,7 +16,7 @@ def check_python_version():
 def main():
     setup(name='simpleplotly',
           version=__version__,
-          author='ArrayStream (Yu Zheng, Ran Fan, Yongxin Yang)',
+          author='ArrayStream (Yu Zheng, Ran Fan)',
           author_email='team@arraystream.com',
           url='https://github.com/arraystream/simpleplotly',
           description='An easy to use plotly wrapper for python / jupyter notebooks',
