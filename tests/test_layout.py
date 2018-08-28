@@ -34,4 +34,4 @@ class LayoutBuildersTest(unittest.TestCase):
         expected = {'autorange': True, 'showgrid': True, 'showline': False, 'title': 'test axis'}
         shape_builder = axis_builder_func('test axis')
         shape_builder(self.test_layout)
-        self.assertDictEqual(self.test_layout[axis_name], expected)
+        self.assertDictEqual(self.test_layout[axis_name]._props, expected)
