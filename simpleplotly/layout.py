@@ -55,12 +55,12 @@ class AxisBuilder(ElementBuilder):
 
 class XAxis(AxisBuilder):
     def __init__(self, title, name='xaxis', autorange=True, showgrid=True, showline=False, **kwargs):
-        super().__init__(go.layout.scene.XAxis, name=name, title=title, autorange=autorange, showgrid=showgrid, showline=showline, **kwargs)
+        super().__init__(go.layout.XAxis, name=name, title=title, autorange=autorange, showgrid=showgrid, showline=showline, **kwargs)
 
 
 class YAxis(AxisBuilder):
     def __init__(self, title, name='yaxis', autorange=True, showgrid=True, showline=False, **kwargs):
-        super().__init__(go.layout.scene.YAxis, title=title, name=name, autorange=autorange, showgrid=showgrid, showline=showline, **kwargs)
+        super().__init__(go.layout.YAxis, title=title, name=name, autorange=autorange, showgrid=showgrid, showline=showline, **kwargs)
 
 
 class ZAxis(AxisBuilder):
