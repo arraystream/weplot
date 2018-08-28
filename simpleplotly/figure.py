@@ -35,7 +35,7 @@ class FigureHolder(object):
 
     def drop_layout_key(self, key):
         if key in self.figure.layout:
-            del self.figure.layout[key]
+            setattr(self.figure.layout, key, None)
         return self
 
     def to_image(self, filename, format=None, width=None, height=None, scale=None):
