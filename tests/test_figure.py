@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import simpleplotly as sp
+
 import plotly.graph_objs as go
+
+import simpleplotly as sp
 
 
 class FigureHolderTest(unittest.TestCase):
@@ -21,6 +23,21 @@ class FigureHolderTest(unittest.TestCase):
         fh.drop_layout_key('barmode')
         self.assertIsNone(layout.barmode)
         self.assertEqual(layout.title, 'test plot')
+
+    def test_update_layout_with_invalid_property_raises(self):
+        fh = sp.FigureHolder(go.Figure())
+        layout = fh.figure.layout
+
+        self.assertIsNone(layout.barmode)
+        self.assertIsNone(layout.title)
+
+        self.assertRaises(ValueError, fh.update_layout, invalid_property1='any value')
+
+        fh.update_layout(barmode='group', title='test plot')
+        self.assertEqual(layout.barmode, 'group')
+        self.assertEqual(layout.title, 'test plot')
+
+        self.assertRaises(ValueError, fh.drop_layout_key, 'invalid_property2')
 
 
 class FigureBuilderTest(unittest.TestCase):
