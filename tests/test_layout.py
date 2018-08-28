@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
-import simpleplotly as sp
+import weplot as wp
 
 
 class LayoutBuildersTest(unittest.TestCase):
@@ -11,24 +9,24 @@ class LayoutBuildersTest(unittest.TestCase):
 
     def test_shape_builder(self):
         expected = {'type': 'rect', 'x0': 2, 'x1': 3, 'xref': 'x', 'y0': 0, 'y1': 1, 'yref': 'paper'}
-        shape_builder = sp.Shape(**expected)
+        shape_builder = wp.Shape(**expected)
         shape_builder(self.test_layout)
         self.assertDictEqual(self.test_layout['shapes'][0], expected)
 
     def test_annotation_builder(self):
         expected = {'text': 'some text', 'x': 2, 'xref': 'x', 'y': 3, 'yref': 'y'}
-        annotation_builder = sp.Annotation(2, 3, 'some text')
+        annotation_builder = wp.Annotation(2, 3, 'some text')
         annotation_builder(self.test_layout)
         self.assertDictEqual(self.test_layout['annotations'][0], expected)
 
     def test_xaxis_builder(self):
-        self.check_axis(sp.XAxis, 'xaxis')
+        self.check_axis(wp.XAxis, 'xaxis')
 
     def test_yaxis_builder(self):
-        self.check_axis(sp.YAxis, 'yaxis')
+        self.check_axis(wp.YAxis, 'yaxis')
 
     def test_zaxis_builder(self):
-        self.check_axis(sp.ZAxis, 'zaxis')
+        self.check_axis(wp.ZAxis, 'zaxis')
 
     def check_axis(self, axis_builder_func, axis_name):
         expected = {'autorange': True, 'showgrid': True, 'showline': False, 'title': 'test axis'}

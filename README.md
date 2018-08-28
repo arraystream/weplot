@@ -1,19 +1,19 @@
-## SimplePlotly
+## WePlot
 
-[![PyPI Version](https://img.shields.io/pypi/v/simpleplotly.svg)](https://pypi.python.org/pypi/simpleplotly) [![Build Status](https://travis-ci.org/arraystream/simpleplotly.svg?branch=master)](https://travis-ci.org/arraystream/simpleplotly)
+[![PyPI Version](https://img.shields.io/pypi/v/weplot.svg)](https://pypi.python.org/pypi/weplot) [![Build Status](https://travis-ci.org/arraystream/weplot.svg?branch=master)](https://travis-ci.org/arraystream/weplot)
 
-SimplePlotly is an easy to use plotly wrapper for python / jupyter notebooks
+WePlot is an easy to use [plotly](https://plot.ly/) wrapper for python / jupyter notebooks
 
 ### Authors
 
-ArrayStream (Yu Zheng, Ran Fan, Yongxin Yang)
+ArrayStream Technologies (Yu Zheng, Ran Fan)
 
 ### Installation
-```pip install simpleplotly```
+```pip install weplot```
 
 ### Documentation
 
-Please see our blog post on: [https://www.arraystream.com/blog/simpleplotly](https://www.arraystream.com/blog/simpleplotly)
+Please see our blog post on: [https://www.arraystream.com/blog/weplot](https://www.arraystream.com/blog/weplot)
 
 ### Contributing
 

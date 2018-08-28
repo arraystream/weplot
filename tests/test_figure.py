@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 import plotly.graph_objs as go
 
-import simpleplotly as sp
+import weplot as wp
 
 
 class FigureHolderTest(unittest.TestCase):
     def test_can_update_layout(self):
-        fh = sp.FigureHolder(go.Figure())
+        fh = wp.FigureHolder(go.Figure())
         layout = fh.figure.layout
 
         self.assertIsNone(layout.barmode)
@@ -25,7 +23,7 @@ class FigureHolderTest(unittest.TestCase):
         self.assertEqual(layout.title, 'test plot')
 
     def test_update_layout_with_invalid_property_raises(self):
-        fh = sp.FigureHolder(go.Figure())
+        fh = wp.FigureHolder(go.Figure())
         layout = fh.figure.layout
 
         self.assertIsNone(layout.barmode)

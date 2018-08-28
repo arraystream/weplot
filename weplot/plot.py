@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from abc import ABC
 
 from plotly import graph_objs as go
