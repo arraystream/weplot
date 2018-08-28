@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from setuptools import setup, find_packages
 
-exec(open('simpleplotly/version.py').read())
+exec(open('weplot/version.py').read())
 
 
 def check_python_version():
@@ -14,13 +12,13 @@ def check_python_version():
 
 
 def main():
-    setup(name='simpleplotly',
+    setup(name='weplot',
           version=__version__,
           author='ArrayStream (Yu Zheng, Ran Fan)',
           author_email='team@arraystream.com',
-          url='https://github.com/arraystream/simpleplotly',
+          url='https://github.com/arraystream/weplot',
           description='An easy to use plotly wrapper for python / jupyter notebooks',
-          long_description='simpleplotly makes generating charts with plotly easy',
+          long_description='weplot makes generating charts with plotly easy',
           classifiers=[
               'Development Status :: 4 - Beta',
               'Programming Language :: Python :: 3',
@@ -30,7 +28,7 @@ def main():
               'Topic :: Scientific/Engineering :: Visualization',
           ],
           license='MIT',
-          packages=find_packages(include=['simpleplotly']),
+          packages=find_packages(include=['weplot']),
           install_requires=['plotly'],
           platforms='any')
 
