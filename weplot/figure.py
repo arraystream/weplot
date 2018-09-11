@@ -1,4 +1,3 @@
-import copy
 import itertools
 
 import plotly
@@ -118,7 +117,7 @@ class FigureBuilder(object):
 
         for idx, builder in enumerate(self.builders):
             spec = self.canvas.specs[idx]
-            fig.append_trace(copy.deepcopy(builder.data), spec.r, spec.c)
+            fig.append_trace(builder.data, spec.r, spec.c)
 
         holder = FigureHolder(go.Figure(data=fig.data, layout=fig.layout))
         holder.update_layout(**self.layout)
@@ -129,7 +128,7 @@ class FigureBuilder(object):
         if col is not None and row is not None:
             new_builder = FigureBuilder()
             new_builder.builders = self.builders
-            new_builder.layout = copy.deepcopy(self.layout)
+            new_builder.layout = self.layout
             new_builder.canvas = canvas_from_specs(itertools.product(range(1, row + 1), range(1, col + 1)))
             new_builder.build_subplot(print_grid=print_grid, **kwargs).plot()
         else:
